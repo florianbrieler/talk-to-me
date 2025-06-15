@@ -9,7 +9,8 @@ The project provides:
 * Room database and DAO for persisting `Talk` entities.
 * ViewModel and repository using Hilt for dependency injection.
 * Simple Compose UI with a list of Talks and a form to add a new Talk.
-* Text‑to‑Speech manager to speak messages.
+* Text‑to‑Speech manager to speak messages. Speech requests are queued so that
+  multiple Talks triggered at the same time are spoken one after another.
 * Time‑based triggers scheduled with `AlarmManager` and delivered via a
   foreground service.
 * Boot receiver that restores active Talks after device reboot.
