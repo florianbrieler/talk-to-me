@@ -1,6 +1,6 @@
 package com.example.talktome
 
-import androidx.compose.foundation.clickable
+import androidx.compose.foundation.combinedClickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -18,6 +18,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 fun TalkListScreen(viewModel: TalkViewModel = hiltViewModel()) {
     val talks by viewModel.talks.collectAsState()
     var adding by remember { mutableStateOf(false) }
+    var deleting by remember { mutableStateOf<Talk?>(null) }
 
     if (adding) {
         AddTalkScreen(
@@ -40,20 +41,46 @@ fun TalkListScreen(viewModel: TalkViewModel = hiltViewModel()) {
                     TalkRow(
                         talk,
                         onToggle = { viewModel.toggleEnabled(talk, it) },
-                        onClick = { viewModel.speak(talk) }
+                        onClick = { viewModel.speak(talk) },
+                        onLongPress = { deleting = talk }
                     )
                 }
             }
+        }
+        deleting?.let { talk ->
+            AlertDialog(
+                onDismissRequest = { deleting = null },
+                title = { Text("Delete Talk") },
+                text = { Text("Delete '${'$'}{talk.message}'?") },
+                confirmButton = {
+                    TextButton(onClick = {
+                        viewModel.deleteTalk(talk)
+                        deleting = null
+                    }) {
+                        Text("Delete")
+                    }
+                },
+                dismissButton = {
+                    TextButton(onClick = { deleting = null }) {
+                        Text("Cancel")
+                    }
+                }
+            )
         }
     }
 }
 
 @Composable
-fun TalkRow(talk: Talk, onToggle: (Boolean) -> Unit, onClick: () -> Unit) {
+fun TalkRow(
+    talk: Talk,
+    onToggle: (Boolean) -> Unit,
+    onClick: () -> Unit,
+    onLongPress: () -> Unit
+) {
     Row(
         modifier = Modifier
             .fillMaxWidth()
-            .clickable(onClick = onClick)
+            .combinedClickable(onClick = onClick, onLongClick = onLongPress)
             .padding(16.dp),
         verticalAlignment = Alignment.CenterVertically
     ) {
