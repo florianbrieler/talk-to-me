@@ -1,7 +1,9 @@
 ## **Product Specification: Talk-to-me**
 
 **Document Version:** 1.0
+
 **Date:** June 16, 2025
+
 **Author:** Google AI Studio
 
 ### 1. Overview & Vision
