@@ -1,4 +1,4 @@
-package com.example.talktome
+package org.talktome
 
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.darkColorScheme

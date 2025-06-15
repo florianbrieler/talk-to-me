@@ -1,4 +1,4 @@
-package com.example.talktome
+package org.talktome
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.Button

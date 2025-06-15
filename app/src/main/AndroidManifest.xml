@@ -1,4 +1,4 @@
-<manifest package="com.example.talktome" xmlns:android="http://schemas.android.com/apk/res/android">
+<manifest package="org.talktome" xmlns:android="http://schemas.android.com/apk/res/android">
     <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
     <uses-permission android:name="android.permission.SCHEDULE_EXACT_ALARM" />
