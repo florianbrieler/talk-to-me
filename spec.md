@@ -71,11 +71,13 @@ We will refer to a single trigger-action pair as a **"Talk"**.
 *   **NFR-2 (Battery Efficiency):** This is paramount. The app must use the most battery-efficient APIs available (`AlarmManager` for time, `GeofencingClient` for location) to minimize battery drain.
 *   **NFR-3 (Reliability):** Triggers must be persistent. The app must automatically re-register all active Talks after the device reboots.
 *   **NFR-4 (Offline Capability):** All core functionality (triggering, speaking) must work without an internet connection. An internet connection is only required for the initial setup of a location-based trigger (for address geocoding and map tiles).
+*   **NFR-5 (Beauty):** The app shall look really nice and use the latest, most modern styles for Android.
+*   **NFR-6 (Background Capability):** A Talk must also happen if the app is in the background; it cannot be killed by Android OS; think of an alarm clock thatalso fires 100% reliably.
 
 ### 4. Technical Specification
 
 *   **Platform:** Android
-*   **Minimum SDK:** API 26 (Android 8.0) - To ensure access to modern background processing and notification channels.
+*   **Minimum SDK:** Android 13
 *   **Language:** Kotlin
 *   **Architecture:** Model-View-ViewModel (MVVM)
 *   **UI Toolkit:** Jetpack Compose
@@ -100,17 +102,6 @@ The app must request the following permissions with clear, user-facing rationale
 | `RECEIVE_BOOT_COMPLETED`       | "Allows the app to automatically restart your active Talks after you reboot your phone, so you don't miss anything."       |
 | `SCHEDULE_EXACT_ALARM` (optional) | "Needed for precise time-based Talks to ensure they fire at the exact time you set."                                     |
 
-
-### 5. Monetization Strategy (V1.0)
-
-*   **Model:** Freemium
-*   **Free Tier:**
-    *   Fully functional.
-    *   Limited to a maximum of **3** active Talks at any one time.
-    *   A non-intrusive banner ad may be displayed on the main screen.
-*   **Pro Tier (One-Time Purchase):**
-    *   Unlocks unlimited Talks.
-    *   Removes all advertisements.
 
 ### 6. Future Roadmap (V2.0 and Beyond)
 
