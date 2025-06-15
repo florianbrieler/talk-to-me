@@ -13,3 +13,4 @@ The project provides:
 * Time‑based triggers scheduled with `AlarmManager` and delivered via a
   foreground service.
 * Boot receiver that restores active Talks after device reboot.
+* Delete Talks from the list via a long‑press gesture.
