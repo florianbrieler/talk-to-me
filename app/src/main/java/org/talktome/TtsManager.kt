@@ -1,4 +1,4 @@
-package com.example.talktome
+package org.talktome
 
 import android.content.Context
 import android.speech.tts.TextToSpeech

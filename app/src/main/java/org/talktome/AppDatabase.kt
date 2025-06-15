@@ -1,4 +1,4 @@
-package com.example.talktome
+package org.talktome
 
 import androidx.room.Database
 import androidx.room.RoomDatabase

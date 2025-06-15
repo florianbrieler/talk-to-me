@@ -1,4 +1,4 @@
-package com.example.talktome
+package org.talktome
 
 import androidx.compose.foundation.combinedClickable
 import androidx.compose.foundation.layout.*

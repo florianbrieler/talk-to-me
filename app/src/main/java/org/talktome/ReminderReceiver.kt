@@ -1,4 +1,4 @@
-package com.example.talktome
+package org.talktome
 
 import android.content.BroadcastReceiver
 import android.content.Context
