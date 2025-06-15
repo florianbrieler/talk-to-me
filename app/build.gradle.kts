@@ -7,6 +7,7 @@ plugins {
 
 android {
     compileSdk = 35
+    namespace = "org.talktome"
 
     defaultConfig {
         applicationId = "org.talktome"
