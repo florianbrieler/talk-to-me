@@ -3,6 +3,7 @@ package com.example.talktome
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
+import android.util.Log
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -16,11 +17,15 @@ class BootReceiver : BroadcastReceiver() {
     @Inject lateinit var scheduler: TalkScheduler
 
     override fun onReceive(context: Context, intent: Intent) {
+        Log.d(TAG, "onReceive action=${'$'}{intent.action}")
         if (intent.action == Intent.ACTION_BOOT_COMPLETED) {
             // Re-schedule all enabled talks
             CoroutineScope(Dispatchers.Default).launch {
                 repository.talks.first().filter { it.enabled }.forEach { scheduler.schedule(it) }
             }
         }
+    }
+    companion object {
+        private const val TAG = "BootReceiver"
     }
 }

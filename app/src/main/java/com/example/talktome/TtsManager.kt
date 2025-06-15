@@ -7,6 +7,7 @@ import java.util.Locale
 import java.util.UUID
 import javax.inject.Inject
 import javax.inject.Singleton
+import android.util.Log
 
 @Singleton
 class TtsManager @Inject constructor(@ApplicationContext context: Context) : TextToSpeech.OnInitListener {
@@ -15,6 +16,7 @@ class TtsManager @Inject constructor(@ApplicationContext context: Context) : Tex
     private val pending = mutableListOf<String>()
 
     override fun onInit(status: Int) {
+        Log.d(TAG, "onInit status=${'$'}status")
         if (status == TextToSpeech.SUCCESS) {
             tts.language = Locale.getDefault()
             ready = true
@@ -27,10 +29,15 @@ class TtsManager @Inject constructor(@ApplicationContext context: Context) : Tex
     }
 
     fun speak(text: String) {
+        Log.d(TAG, "speak text=${'$'}text ready=${'$'}ready")
         if (ready) {
             tts.speak(text, TextToSpeech.QUEUE_ADD, null, UUID.randomUUID().toString())
         } else {
             pending.add(text)
         }
+    }
+
+    companion object {
+        private const val TAG = "TtsManager"
     }
 }

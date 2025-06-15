@@ -7,12 +7,14 @@ import android.content.Intent
 import dagger.hilt.android.qualifiers.ApplicationContext
 import javax.inject.Inject
 import javax.inject.Singleton
+import android.util.Log
 
 @Singleton
 class TalkScheduler @Inject constructor(@ApplicationContext private val context: Context) {
     private val alarmManager = context.getSystemService(AlarmManager::class.java)
 
     fun schedule(talk: Talk) {
+        Log.d(TAG, "schedule talk=${'$'}talk")
         val pi = pendingIntent(talk)
         when (talk.triggerType) {
             TriggerType.TIME_INTERVAL -> {
@@ -31,10 +33,12 @@ class TalkScheduler @Inject constructor(@ApplicationContext private val context:
     }
 
     fun cancel(talk: Talk) {
+        Log.d(TAG, "cancel talk=${'$'}talk")
         alarmManager.cancel(pendingIntent(talk))
     }
 
     private fun pendingIntent(talk: Talk): PendingIntent {
+        Log.d(TAG, "pendingIntent for talk=${'$'}talk")
         val intent = Intent(context, ReminderReceiver::class.java).apply {
             putExtra(ReminderReceiver.EXTRA_MESSAGE, talk.message)
         }
@@ -44,5 +48,9 @@ class TalkScheduler @Inject constructor(@ApplicationContext private val context:
             intent,
             PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
         )
+    }
+
+    companion object {
+        private const val TAG = "TalkScheduler"
     }
 }

@@ -9,6 +9,7 @@ import android.os.IBinder
 import androidx.core.app.NotificationCompat
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
+import android.util.Log
 
 @AndroidEntryPoint
 class TtsService : Service() {
@@ -16,11 +17,13 @@ class TtsService : Service() {
 
     override fun onCreate() {
         super.onCreate()
+        Log.d(TAG, "onCreate")
         createChannel()
     }
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
         val message = intent?.getStringExtra(ReminderReceiver.EXTRA_MESSAGE) ?: ""
+        Log.d(TAG, "onStartCommand message=${'$'}message")
         val notification: Notification = NotificationCompat.Builder(this, CHANNEL_ID)
             .setSmallIcon(android.R.drawable.ic_dialog_info)
             .setContentTitle("Talk-to-me")
@@ -36,6 +39,7 @@ class TtsService : Service() {
     override fun onBind(intent: Intent?): IBinder? = null
 
     private fun createChannel() {
+        Log.d(TAG, "createChannel")
         val nm = getSystemService(NotificationManager::class.java)
         if (nm.getNotificationChannel(CHANNEL_ID) == null) {
             val channel = NotificationChannel(CHANNEL_ID, "Talks", NotificationManager.IMPORTANCE_LOW)
@@ -45,5 +49,6 @@ class TtsService : Service() {
 
     companion object {
         const val CHANNEL_ID = "talks"
+        private const val TAG = "TtsService"
     }
 }

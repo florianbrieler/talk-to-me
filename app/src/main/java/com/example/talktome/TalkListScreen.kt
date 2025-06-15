@@ -13,9 +13,11 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import android.util.Log
 
 @Composable
 fun TalkListScreen(viewModel: TalkViewModel = hiltViewModel()) {
+    Log.d(TAG, "TalkListScreen called")
     val talks by viewModel.talks.collectAsState()
     var adding by remember { mutableStateOf(false) }
     var deleting by remember { mutableStateOf<Talk?>(null) }
@@ -77,6 +79,7 @@ fun TalkRow(
     onClick: () -> Unit,
     onLongPress: () -> Unit
 ) {
+    Log.d(TAG, "TalkRow called for talk=${'$'}{talk.id}")
     Row(
         modifier = Modifier
             .fillMaxWidth()
@@ -91,3 +94,5 @@ fun TalkRow(
         Switch(checked = talk.enabled, onCheckedChange = onToggle)
     }
 }
+
+private const val TAG = "TalkListScreen"
