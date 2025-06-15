@@ -12,17 +12,25 @@ import javax.inject.Singleton
 class TtsManager @Inject constructor(@ApplicationContext context: Context) : TextToSpeech.OnInitListener {
     private val tts = TextToSpeech(context, this)
     private var ready = false
+    private val pending = mutableListOf<String>()
 
     override fun onInit(status: Int) {
         if (status == TextToSpeech.SUCCESS) {
             tts.language = Locale.getDefault()
             ready = true
+            // Flush any messages that arrived before initialization completed
+            pending.forEach { text ->
+                tts.speak(text, TextToSpeech.QUEUE_ADD, null, UUID.randomUUID().toString())
+            }
+            pending.clear()
         }
     }
 
     fun speak(text: String) {
         if (ready) {
             tts.speak(text, TextToSpeech.QUEUE_ADD, null, UUID.randomUUID().toString())
+        } else {
+            pending.add(text)
         }
     }
 }
