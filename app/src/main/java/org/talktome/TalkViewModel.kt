@@ -3,6 +3,7 @@ package org.talktome
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
+import android.util.Log
 import javax.inject.Inject
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
@@ -15,6 +16,7 @@ class TalkViewModel @Inject constructor(
     private val scheduler: TalkScheduler,
     private val tts: TtsManager
 ) : ViewModel() {
+    private val TAG = "TalkViewModel"
     val talks: StateFlow<List<Talk>> = repository.talks.stateIn(
         scope = viewModelScope,
         started = SharingStarted.WhileSubscribed(5000),
@@ -22,6 +24,7 @@ class TalkViewModel @Inject constructor(
     )
 
     fun addTalk(message: String, intervalMinutes: Int) {
+        Log.d(TAG, "addTalk called")
         viewModelScope.launch {
             val talk = Talk(message = message, intervalMinutes = intervalMinutes)
             val id = repository.add(talk)
@@ -29,10 +32,12 @@ class TalkViewModel @Inject constructor(
         }
     }
     fun speak(talk: Talk) {
+        Log.d(TAG, "speak called for ${'$'}{talk.id}")
         tts.speak(talk.message)
     }
 
     fun deleteTalk(talk: Talk) {
+        Log.d(TAG, "deleteTalk called for ${'$'}{talk.id}")
         viewModelScope.launch {
             repository.delete(talk)
             scheduler.cancel(talk)
@@ -40,6 +45,7 @@ class TalkViewModel @Inject constructor(
     }
 
     fun toggleEnabled(talk: Talk, enabled: Boolean) {
+        Log.d(TAG, "toggleEnabled called for ${'$'}{talk.id} enabled=${'$'}enabled")
         viewModelScope.launch {
             val updated = talk.copy(enabled = enabled)
             repository.update(updated)

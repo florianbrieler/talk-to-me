@@ -8,12 +8,16 @@ import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import android.util.Log
+
+private const val TAG = "AddTalkScreen"
 
 @Composable
 fun AddTalkScreen(
     onSave: (String, Int) -> Unit,
     onCancel: () -> Unit
 ) {
+    Log.d(TAG, "AddTalkScreen called")
     var message by remember { mutableStateOf("") }
     var interval by remember { mutableStateOf("15") }
     Column(modifier = Modifier.padding(16.dp)) {
